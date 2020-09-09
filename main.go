@@ -2,11 +2,16 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 	"os"
 
+	"github.com/gorilla/mux"
 	"github.com/jeevanantham123/insta-golang-api/driver"
+	"github.com/jeevanantham123/insta-golang-api/routes"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -26,10 +31,12 @@ func main() {
 	}
 
 	db, err := driver.Connect()
-
+	fmt.Println(db)
 	if err == nil {
-		fmt.Println("GO server started and running at port 8123")
-		fmt.Println(db)
+		fmt.Println("GO server started and running at port" + serverPort)
+		router := mux.NewRouter().StrictSlash(true)
+		routes.HandleUserRoutes(router)
+		log.Fatal(http.ListenAndServe(serverPort, cors.AllowAll().Handler(router)))
 		fmt.Println("Server stopped")
 	}
 }
