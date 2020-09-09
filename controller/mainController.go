@@ -1,11 +1,7 @@
 package controller
 
-import (
-	"fmt"
-)
-
 //sayHello func to return something
 func sayHello(val string) string {
-	fmt.Println(val)
+	// var out = repo.sayHell(val)
 	return val
 }
