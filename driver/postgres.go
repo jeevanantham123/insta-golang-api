@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/jeevanantham123/insta-golang-api/model"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
 
@@ -14,6 +15,10 @@ import (
 
 var db *gorm.DB
 var err error
+
+func initialMigration() {
+	db.AutoMigrate(&model.User{})
+}
 
 //Connect function returns database pointer
 func Connect() (*gorm.DB, error) {
@@ -39,6 +44,7 @@ func Connect() (*gorm.DB, error) {
 		fmt.Println("Failed to connect database", err)
 	} else {
 		fmt.Println("Database connection Successfull")
+		initialMigration()
 	}
 
 	return db, err

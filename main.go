@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/jeevanantham123/insta-golang-api/controller"
 	"github.com/jeevanantham123/insta-golang-api/driver"
 	"github.com/jeevanantham123/insta-golang-api/routes"
 	"github.com/joho/godotenv"
@@ -31,11 +32,13 @@ func main() {
 	}
 
 	db, err := driver.Connect()
-	fmt.Println(db)
+
+	userController := controller.UserController{DB: db}
+
 	if err == nil {
 		fmt.Println("GO server started and running at port" + serverPort)
 		router := mux.NewRouter().StrictSlash(true)
-		routes.HandleUserRoutes(router)
+		routes.HandleUserRoutes(userController, router)
 		log.Fatal(http.ListenAndServe(serverPort, cors.AllowAll().Handler(router)))
 		fmt.Println("Server stopped")
 	}
