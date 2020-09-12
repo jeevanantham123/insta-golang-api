@@ -12,9 +12,13 @@ type User struct {
 
 	Email string
 
-	UserName string
+	UserName string `gorm:"unique"`
 
 	Password string
+
+	ProfileURL string
+
+	About string
 }
 
 //UserOutput model

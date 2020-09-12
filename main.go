@@ -34,11 +34,12 @@ func main() {
 	db, err := driver.Connect()
 
 	userController := controller.UserController{DB: db}
-
+	postController := controller.PostController{DB: db}
 	if err == nil {
 		fmt.Println("GO server started and running at port" + serverPort)
 		router := mux.NewRouter().StrictSlash(true)
 		routes.HandleUserRoutes(userController, router)
+		routes.HandlePostRoutes(postController, router)
 		log.Fatal(http.ListenAndServe(serverPort, cors.AllowAll().Handler(router)))
 		fmt.Println("Server stopped")
 	}

@@ -17,7 +17,9 @@ var db *gorm.DB
 var err error
 
 func initialMigration() {
-	db.AutoMigrate(&model.User{})
+	db.AutoMigrate(&model.User{}, &model.FriendSuggestion{}, &model.UserFriend{})
+	db.Model(&model.FriendSuggestion{}).AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT")
+	db.Model(&model.UserFriend{}).AddForeignKey("user_name", "users(user_name)", "RESTRICT", "RESTRICT")
 }
 
 //Connect function returns database pointer
